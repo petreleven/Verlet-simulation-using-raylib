@@ -5,6 +5,9 @@
 Stick::Stick(Point &p0 , Point &p1, float length):p0(p0), p1(p1){
   this->length = length;
 }
+Stick::Stick(Point &p0 , Point &p1, float length, Color c):p0(p0), p1(p1), color(c){
+  this->length = length;
+}
 Stick::~Stick(){}
 
 Vector2 getDifference(Vector2 p0, Vector2 p1){
@@ -15,11 +18,20 @@ Vector2 getDifference(Vector2 p0, Vector2 p1){
 float getLength(Vector2 v){
   return sqrtf(v.x *v.x + v.y * v.y);
 }
+
 void Stick::render(){
   Vector2 pos0 = this->p0.getCurrentPos();
   Vector2 pos1 = this->p1.getCurrentPos();
-  DrawLine(pos0.x, pos0.y, pos1.x, pos1.y, GREEN);
+  DrawLine(pos0.x, pos0.y, pos1.x, pos1.y, this->color);
 }
+void Stick::render(Color c){
+  Vector2 pos0 = this->p0.getCurrentPos();
+  Vector2 pos1 = this->p1.getCurrentPos();
+  DrawLine(pos0.x, pos0.y, pos1.x, pos1.y, c);
+}
+
+
+
 
 void Stick::constraint(){
   Vector2 diff = getDifference(this->p1.getCurrentPos(), this->p0.getCurrentPos());

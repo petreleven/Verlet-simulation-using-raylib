@@ -19,8 +19,8 @@ Point::~Point(){
 
 void Point::constraint(){
   if (ispinned){return;}
-  float vel_x = (current_position.x - prev_position.x)*0.09;
-  float vel_y = (current_position.y - prev_position.y)*0.09;
+  float vel_x = (current_position.x - prev_position.x);
+  float vel_y = (current_position.y - prev_position.y);
   if(this->current_position.x+RADIUS > screen_width){
       this->current_position.x = screen_width-RADIUS;
       this->prev_position.x = current_position.x + vel_x;

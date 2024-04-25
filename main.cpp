@@ -1,4 +1,4 @@
-#include <cmath>
+#include <cmath>    
 #include <cstddef>
 #include <raylib.h>
 #include <vector>
@@ -28,9 +28,9 @@ public:
 
   }
   ~Engine(){
-    if(piston!=nullptr){
-      delete piston;
-    }
+    //if(piston!=nullptr){
+     // delete piston;
+    //}
   }
   void update(float dt){
     Vector2 currentpos = this->piston->getCurrentPos();
@@ -47,27 +47,8 @@ public:
   }
 
 };
-
-void CREATSQ(std::vector<Point *> &all_points, std::vector<Stick *> &all_sticks, 
-             Vector2 mousepos){
-  Point *sq1 = new Point(mousepos.x,  mousepos.y, 1, SCREEN_WIDTH, SCREEN_HEIGHT, WHITE, false);
-  Point *sq2 = new Point(mousepos.x + 100, mousepos.y, 1, SCREEN_WIDTH, SCREEN_HEIGHT, WHITE, false);
-  Point *sq3 = new Point(mousepos.x + 100, mousepos.y+100, 1, SCREEN_WIDTH, SCREEN_HEIGHT, WHITE, false);
-  Point *sq4 = new Point(mousepos.x, mousepos.y+100, 1, SCREEN_WIDTH, SCREEN_HEIGHT, WHITE, true);
-  Stick *sq12 = new Stick(*sq1, *sq2, 90);
-  Stick *sq23 = new Stick(*sq2, *sq3, 90);
-  Stick *sq34 = new Stick(*sq3, *sq4, 90);
-  Stick *sq41 = new Stick(*sq4, *sq1, 90);
-  Stick *sq13 = new Stick(*sq1, *sq3, 127.28);
-  all_points.push_back(sq1);
-  all_points.push_back(sq2);
-  all_points.push_back(sq3);
-  all_points.push_back(sq4);
-  all_sticks.push_back(sq12);
-  all_sticks.push_back(sq23);
-  all_sticks.push_back(sq34);
-  all_sticks.push_back(sq41);
-  all_sticks.push_back(sq13);
+bool isswipedOnStick(Vector2 swipedir, Vector2 stickdir){
+  return  true; 
 }
 float magnitude(Vector2 u, Vector2 v){
   return sqrtf(powf(v.x - u.x,2) + powf(v.y-u.y, 2));
@@ -108,12 +89,16 @@ void render_all(std::vector<Point *> &all_points, std::vector<Stick *> all_stick
 
 }
 
-void CALL_GC(std::vector<Point *> &all_points, std::vector<Stick *> all_sticks){
+void CALL_GC(std::vector<Point *> &all_points, std::vector<Stick *> &all_sticks){
   for (Stick *s: all_sticks){
+    if(s==nullptr){continue;}
     delete  s;
+    s=nullptr;
   }
   for(Point *p : all_points){
+    if (p==nullptr){continue;}
     delete p;
+    p=nullptr;
   }
 }
 
@@ -199,9 +184,10 @@ int main(){
     newengine.render();
     EndDrawing();
   }
-  CloseWindow();
-  //Deallocate memory
+//Deallocate memory
   CALL_GC(all_points, all_sticks);
+  CloseWindow();
+  
 }
 
 
